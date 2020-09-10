@@ -1,0 +1,58 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: emre1720/client
+      context: client
+      docker:
+        dockerfile: dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.js"
+            dest: .
+    - image: emre1720/comments
+      context: comments
+      docker:
+        dockerfile: dockerfile
+      sync:
+        manual:
+          - src: "*.js"
+            dest: .
+    - image: emre1720/event-bus
+      context: event-bus
+      docker:
+        dockerfile: dockerfile
+      sync:
+        manual:
+          - src: "*.js"
+            dest: .
+    - image: emre1720/moderation
+      context: moderation
+      docker:
+        dockerfile: dockerfile
+      sync:
+        manual:
+          - src: "*.js"
+            dest: .
+    - image: emre1720/posts
+      context: posts
+      docker:
+        dockerfile: dockerfile
+      sync:
+        manual:
+          - src: "*.js"
+            dest: .
+    - image: emre1720/query
+      context: query
+      docker:
+        dockerfile: dockerfile
+      sync:
+        manual:
+          - src: "*.js"
+            dest: .
